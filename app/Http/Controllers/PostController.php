@@ -2,33 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+  protected $postService;
+
+  public function __construct(PostService $postService) {
+    $this->postService = $postService;
+  }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $posts = $this->postService->getPosts();
+        return view('posts.index', compact('posts'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        return $this->postService->savePost($request);
     }
 
     /**
@@ -36,7 +37,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -44,7 +45,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -52,7 +53,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        return $this->postService->updatePost($request, $post);
     }
 
     /**
@@ -60,6 +61,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        return $this->postService->deletePost($post->id);
     }
 }
