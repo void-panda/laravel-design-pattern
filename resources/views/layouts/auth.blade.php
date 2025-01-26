@@ -30,7 +30,18 @@
     </div>
   </nav>
   <div class="container">
-    @yield('content')
+    <div class="row my-3">
+      <h1 class="text-center">{{ $title ?? 'Laravel' }}</h1>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <img src="{{ $slot ?? 'https://picsum.photos/seed/picsum/800/600' }}" class="img-fluid rounded" alt="login page image">
+      </div>
+      <div class="col-md-6">
+        @yield('content')
+      </div>
+    </div>
+
   </div>
 
 
